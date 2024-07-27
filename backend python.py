@@ -48,7 +48,6 @@ answers = [
     "Boa noite, tudo bem?"
   ]
 
-# Ajuste aqui para garantir que `vectorizer` seja um objeto TfidfVectorizer
 vectorizer = TfidfVectorizer()
 vectors = vectorizer.fit_transform(questions).toarray()
 
