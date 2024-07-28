@@ -36,7 +36,7 @@ questions = [
     "O câncer tem cura?",
     "Como saber se estou curado do câncer?",
     "O que acontece depois que o câncer é curado?",
-    "Como saber se eu tenho cancer?"
+    "Como saber se eu tenho câncer?"
 ]
 
 answers = [
