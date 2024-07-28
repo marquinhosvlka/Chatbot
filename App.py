@@ -35,7 +35,8 @@ questions = [
     "Tchau",
     "O câncer tem cura?",
     "Como saber se estou curado do câncer?",
-    "O que acontece depois que o câncer é curado?"
+    "O que acontece depois que o câncer é curado?",
+    "Como saber se eu tenho cancer?"
 ]
 
 answers = [
@@ -65,7 +66,8 @@ answers = [
     "Tchau! Tenha um bom dia!",
     "Sim, muitos tipos de câncer têm cura, especialmente se diagnosticados precocemente e tratados adequadamente.",
     "Para saber se está curado do câncer, é necessário acompanhamento médico e exames regulares para verificar se o câncer não retornou.",
-    "Depois que o câncer é curado, o paciente precisa continuar com acompanhamento médico regular para monitorar a saúde e prevenir possíveis recidivas."
+    "Depois que o câncer é curado, o paciente precisa continuar com acompanhamento médico regular para monitorar a saúde e prevenir possíveis recidivas.",
+    "Para saber se você tem câncer, é importante consultar um médico, que pode solicitar exames como biópsias, tomografias, ressonâncias magnéticas e exames de sangue com base nos sintomas e histórico médico."
 ]
 
 
