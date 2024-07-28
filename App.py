@@ -32,7 +32,10 @@ questions = [
     "Tudo bem?",
     "Como você está?",
     "Obrigado",
-    "Tchau"   
+    "Tchau",
+    "O câncer tem cura?",
+    "Como saber se estou curado do câncer?",
+    "O que acontece depois que o câncer é curado?"
 ]
 
 answers = [
@@ -59,8 +62,12 @@ answers = [
     "Estou bem, obrigado! E você?",
     "Estou bem, obrigado por perguntar! E você?",
     "De nada! Como posso ajudar mais?",
-    "Tchau! Tenha um bom dia!"
+    "Tchau! Tenha um bom dia!",
+    "Sim, muitos tipos de câncer têm cura, especialmente se diagnosticados precocemente e tratados adequadamente.",
+    "Para saber se está curado do câncer, é necessário acompanhamento médico e exames regulares para verificar se o câncer não retornou.",
+    "Depois que o câncer é curado, o paciente precisa continuar com acompanhamento médico regular para monitorar a saúde e prevenir possíveis recidivas."
 ]
+
 
 vectorizer = TfidfVectorizer()
 vectors = vectorizer.fit_transform(questions).toarray()
