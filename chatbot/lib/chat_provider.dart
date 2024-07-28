@@ -31,7 +31,7 @@ class ChatProvider extends ChangeNotifier {
 
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:5000/ask'),
+        Uri.parse('https://chatbot-a1ca.onrender.com/ask'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'question': content}),
       );
