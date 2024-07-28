@@ -3,13 +3,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from flask_cors import CORS
+import os
+
 app = Flask(__name__)
 CORS(app)  # Habilita CORS para todas as rotas
-
-
-  
-
-
 
 questions = [
     "O que é câncer?",
@@ -28,7 +25,8 @@ questions = [
     "Como prevenir o câncer?",
     "Qual a importância do diagnóstico precoce do câncer?",
     "boa noite"
-  ]
+]
+
 answers = [
     "Câncer é uma doença caracterizada pelo crescimento descontrolado de células anormais no corpo.",
     "Os tipos de câncer mais comuns incluem câncer de mama, pulmão, próstata e cólon.",
@@ -46,7 +44,7 @@ answers = [
     "Para prevenir o câncer, recomenda-se evitar o tabagismo, manter uma dieta saudável, praticar atividade física regular, e fazer exames regulares de rastreamento.",
     "O diagnóstico precoce do câncer é importante porque aumenta as chances de sucesso do tratamento e pode salvar vidas.",
     "Boa noite, tudo bem?"
-  ]
+]
 
 vectorizer = TfidfVectorizer()
 vectors = vectorizer.fit_transform(questions).toarray()
@@ -62,4 +60,5 @@ def ask():
     return jsonify({'response': response})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
