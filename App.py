@@ -24,7 +24,15 @@ questions = [
     "O que são terapias alvo?",
     "Como prevenir o câncer?",
     "Qual a importância do diagnóstico precoce do câncer?",
-    "boa noite"
+    "Boa noite",
+    "Bom dia",
+    "Boa tarde",
+    "Olá",
+    "Oi",
+    "Tudo bem?",
+    "Como você está?",
+    "Obrigado",
+    "Tchau"   
 ]
 
 answers = [
@@ -43,7 +51,15 @@ answers = [
     "Terapias alvo são tratamentos que atacam especificamente as células cancerosas sem afetar muito as células normais.",
     "Para prevenir o câncer, recomenda-se evitar o tabagismo, manter uma dieta saudável, praticar atividade física regular, e fazer exames regulares de rastreamento.",
     "O diagnóstico precoce do câncer é importante porque aumenta as chances de sucesso do tratamento e pode salvar vidas.",
-    "Boa noite, tudo bem?"
+    "Boa noite, tudo bem?",
+    "Bom dia! Como posso ajudar você hoje?",
+    "Boa tarde! Em que posso ser útil?",
+    "Olá! Como posso te ajudar hoje?",
+    "Oi! Precisa de alguma informação?",
+    "Estou bem, obrigado! E você?",
+    "Estou bem, obrigado por perguntar! E você?",
+    "De nada! Como posso ajudar mais?",
+    "Tchau! Tenha um bom dia!"
 ]
 
 vectorizer = TfidfVectorizer()
