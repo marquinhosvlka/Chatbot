@@ -48,7 +48,7 @@ class ChatScreen extends StatelessWidget {
                 },
                 child: const Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('Photo'),
+                  child: Text('Imagem'),
                 ),
               ),
               TextButton(
@@ -58,14 +58,14 @@ class ChatScreen extends StatelessWidget {
                 },
                 child: const Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('File'),
+                  child: Text('Arquivo'),
                 ),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('Cancel'),
+                  child: Text('Fechar'),
                 ),
               ),
             ],
