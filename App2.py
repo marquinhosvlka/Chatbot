@@ -4,6 +4,7 @@ import os
 import tensorflow as tf
 import numpy as np
 from PIL import Image
+import tensorflow_hub as hub
 
 app = Flask(__name__)
 
@@ -12,22 +13,31 @@ UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Carregar o modelo pré-treinado (ajuste conforme o seu modelo)
-model = tf.keras.models.load_model('path/to/your/model.h5')
+# Carregar o modelo pré-treinado do TensorFlow Hub
+model_url = 'https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/4'
+model = hub.load(model_url)
 
 # Função para processar a imagem e prever a emoção
 def predict_emotion(image_path):
     # Abra a imagem e prepare-a para o modelo
     image = Image.open(image_path).resize((224, 224))  # Ajuste o tamanho conforme necessário
-    image_array = np.array(image) / 255.0  # Normalizar a imagem
+    image_array = np.array(image).astype(np.float32) / 255.0  # Normalizar a imagem
     image_array = np.expand_dims(image_array, axis=0)  # Adicionar dimensão de batch
 
     # Realizar a previsão
-    predictions = model.predict(image_array)
-    emotion = np.argmax(predictions[0])  # Obtenha a emoção com a maior probabilidade
-    emotions = ['happy', 'sad', 'neutral', 'angry']  # Ajuste conforme as emoções do seu modelo
-
-    return emotions[emotion]
+    try:
+        predictions = model(image_array)
+        predictions = tf.nn.softmax(predictions).numpy()
+        emotion_index = np.argmax(predictions[0])  # Obtenha a emoção com a maior probabilidade
+        emotions = ['happy', 'sad', 'neutral', 'angry']  # Ajuste conforme as emoções do seu modelo
+        
+        # Verificar se o índice da emoção está dentro do intervalo válido
+        if emotion_index < len(emotions):
+            return emotions[emotion_index]
+        else:
+            return 'unknown'
+    except Exception as e:
+        return f'Error during prediction: {str(e)}'
 
 @app.route('/analyze_emotion', methods=['POST'])
 def analyze_emotion():
@@ -43,9 +53,12 @@ def analyze_emotion():
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
 
-        # Prever a emoção
-        emotion = predict_emotion(file_path)
-        return jsonify({'dominant_emotion': emotion})
+        try:
+            # Prever a emoção
+            emotion = predict_emotion(file_path)
+            return jsonify({'dominant_emotion': emotion})
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
 
     return jsonify({'error': 'File processing error'}), 500
 
