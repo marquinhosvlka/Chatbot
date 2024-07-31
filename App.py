@@ -40,28 +40,6 @@ def predict_emotion(image_path):
     except Exception as e:
         return f'Error during prediction: {str(e)}'
 
-@app.route('/analyze_emotion', methods=['POST'])
-def analyze_emotion():
-    if 'image' not in request.files:
-        return jsonify({'error': 'No file part'}), 400
-
-    file = request.files['image']
-    if file.filename == '':
-        return jsonify({'error': 'No selected file'}), 400
-
-    if file:
-        filename = secure_filename(file.filename)
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(file_path)
-
-        try:
-            # Prever a emoção
-            emotion = predict_emotion(file_path)
-            return jsonify({'dominant_emotion': emotion})
-        except Exception as e:
-            return jsonify({'error': str(e)}), 500
-
-    return jsonify({'error': 'File processing error'}), 500
 
 questions = [
     "O que é câncer?",
@@ -139,6 +117,28 @@ def ask():
     response = answers[index]
     return jsonify({'response': response})
 
+@app.route('/analyze_emotion', methods=['POST'])
+def analyze_emotion():
+    if 'image' not in request.files:
+        return jsonify({'error': 'No file part'}), 400
+
+    file = request.files['image']
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'}), 400
+
+    if file:
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+
+        try:
+            # Prever a emoção
+            emotion = predict_emotion(file_path)
+            return jsonify({'dominant_emotion': emotion})
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+
+    return jsonify({'error': 'File processing error'}), 500
 
 
 if __name__ == '__main__':
