@@ -88,7 +88,7 @@ class ChatProvider extends ChangeNotifier {
     try {
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('http://localhost:5000/analyze_emotion'),
+        Uri.parse('https://chatbot-a1ca.onrender.com/analyze_emotion'),
       );
 
       request.files.add(
