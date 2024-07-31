@@ -5,10 +5,13 @@ import numpy as np
 from flask_cors import CORS
 import os
 from werkzeug.utils import secure_filename
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 import tensorflow as tf
 import numpy as np
 from PIL import Image
 import tensorflow_hub as hub
+
+
 
 app = Flask(__name__)
 CORS(app)  # Habilita CORS para todas as rotas
