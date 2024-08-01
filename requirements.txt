@@ -4,5 +4,5 @@ numpy
 flask-cors
 Werkzeug
 Pillow
-cv2
+opencv-python
 fer
