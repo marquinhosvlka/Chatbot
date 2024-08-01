@@ -7,6 +7,7 @@ import os
 from werkzeug.utils import secure_filename
 from fer import FER
 import cv2
+import tensorflow
 
 app = Flask(__name__)
 CORS(app)  # Habilita CORS para todas as rotas
