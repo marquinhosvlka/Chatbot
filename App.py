@@ -5,37 +5,30 @@ import numpy as np
 from flask_cors import CORS
 import os
 from werkzeug.utils import secure_filename
-os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
-import tensorflow as tf
-import numpy as np
-from PIL import Image
-import tensorflow_hub as hub
+from fer import FER
+import cv2
 
 app = Flask(__name__)
 CORS(app)  # Habilita CORS para todas as rotas
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-model_url = 'https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/4'
-model = hub.load(model_url)
 
 # Função para processar a imagem e prever a emoção
 def predict_emotion(image_path):
     try:
-        # Abra a imagem e prepare-a para o modelo
-        image = Image.open(image_path).resize((224, 224))  # Ajuste o tamanho conforme necessário
-        image_array = np.array(image).astype(np.float32) / 255.0  # Normalizar a imagem
-        image_array = np.expand_dims(image_array, axis=0)  # Adicionar dimensão de batch
+        # Carregar a imagem
+        img = cv2.imread(image_path)
 
-        # Realizar a previsão
-        predictions = model(image_array)
-        predictions = tf.nn.softmax(predictions).numpy()
-        emotion_index = np.argmax(predictions[0])  # Obtenha a emoção com a maior probabilidade
-        emotions = ['happy', 'sad', 'neutral', 'angry']  # Ajuste conforme as emoções do seu modelo
+        # Criar o detector de emoções
+        detector = FER()
 
-        # Verificar se o índice da emoção está dentro do intervalo válido
-        if emotion_index < len(emotions):
-            return emotions[emotion_index]
+        # Detectar emoções
+        result = detector.detect_emotions(img)
+
+        if result:
+            dominant_emotion = max(result[0]['emotions'], key=result[0]['emotions'].get)
+            return dominant_emotion
         else:
             return 'unknown'
     except Exception as e:

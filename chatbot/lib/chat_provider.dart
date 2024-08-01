@@ -36,7 +36,7 @@ class ChatProvider extends ChangeNotifier {
 
     try {
       final response = await http.post(
-        Uri.parse('https://chatbot-a1ca.onrender.com/ask'),
+        Uri.parse('https://apitensorflow-hb6ixpzc6q-rj.a.run.app/ask'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'question': content}),
       );
@@ -88,7 +88,7 @@ class ChatProvider extends ChangeNotifier {
     try {
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('https://chatbot-a1ca.onrender.com/analyze_emotion'),
+        Uri.parse('https://apitensorflow-hb6ixpzc6q-rj.a.run.app/analyze_emotion'),
       );
 
       request.files.add(
