@@ -19,21 +19,26 @@ def predict_emotion(image_path):
     try:
         # Carregar a imagem
         img = cv2.imread(image_path)
+        if img is None:
+            return 'Error: Image not found or unable to load image'
 
         # Criar o detector de emoções
         detector = FER()
 
         # Detectar emoções
         result = detector.detect_emotions(img)
-
-        if result:
-            dominant_emotion = max(result[0]['emotions'], key=result[0]['emotions'].get)
-            return dominant_emotion
-        else:
+        if not result:
             return 'unknown'
+
+        # Obter a emoção dominante
+        emotions = result[0]['emotions']
+        if not emotions:
+            return 'unknown'
+
+        dominant_emotion = max(emotions, key=emotions.get)
+        return dominant_emotion
     except Exception as e:
         return f'Error during prediction: {str(e)}'
-
 
 questions = [
     "O que é câncer?",
@@ -104,6 +109,8 @@ vectors = vectorizer.fit_transform(questions).toarray()
 def ask():
     data = request.get_json()
     question = data.get('question')
+    if not question:
+        return jsonify({'error': 'No question provided'}), 400
     question_vector = vectorizer.transform([question]).toarray()
     similarity = cosine_similarity(question_vector, vectors)
     index = np.argmax(similarity)
