@@ -1,0 +1,10 @@
+Flask
+scikit-learn
+numpy
+flask-cors
+Werkzeug
+tensorflow
+Pillow
+tensorflow-hub
+fer
+opencv-python
