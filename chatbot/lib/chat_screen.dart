@@ -6,7 +6,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:uuid/uuid.dart';
-import 'dart:io';  // Certifique-se de importar o File
+import 'dart:io';
 
 class ChatScreen extends StatelessWidget {
   @override
@@ -38,7 +38,7 @@ class ChatScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) => SafeArea(
         child: SizedBox(
-          height: 144,
+          height: 192,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -49,17 +49,17 @@ class ChatScreen extends StatelessWidget {
                 },
                 child: const Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('Imagem'),
+                  child: Text('Imagem da Galeria'),
                 ),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  _handleFileSelection(chatProvider);
+                  _handleCameraSelection(context, chatProvider);
                 },
                 child: const Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('Arquivo'),
+                  child: Text('Tirar Foto'),
                 ),
               ),
               TextButton(
@@ -86,20 +86,22 @@ class ChatScreen extends StatelessWidget {
     if (result != null) {
       final imageFile = File(result.path);
 
-      final message = types.ImageMessage(
-        author: types.User(id: 'user'),
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        id: Uuid().v4(),
-        name: result.name,
-        size: await imageFile.length(),
-        uri: result.path,
-        width: 1440,
-        height: 1440, // ajuste conforme necessário
-      );
+      // Enviar a imagem para a API e adicionar a mensagem somente após o retorno da API
+      await chatProvider.sendImage(imageFile);
+    }
+  }
 
-      chatProvider.addMessage(message);
+  void _handleCameraSelection(BuildContext context, ChatProvider chatProvider) async {
+    final result = await ImagePicker().pickImage(
+      imageQuality: 70,
+      maxWidth: 1440,
+      source: ImageSource.camera,
+    );
 
-      // Enviar a imagem para a API
+    if (result != null) {
+      final imageFile = File(result.path);
+
+      // Enviar a imagem para a API e adicionar a mensagem somente após o retorno da API
       await chatProvider.sendImage(imageFile);
     }
   }

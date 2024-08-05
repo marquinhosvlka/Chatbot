@@ -20,8 +20,11 @@ class ChatProvider extends ChangeNotifier {
   );
 
   void addMessage(types.Message message) {
-    _messages.insert(0, message);
-    notifyListeners();
+    // Verifica se a mensagem já está na lista antes de adicionar
+    if (!_messages.any((msg) => msg.id == message.id)) {
+      _messages.insert(0, message);
+      notifyListeners();
+    }
   }
 
   Future<void> sendMessage(String content) async {
@@ -36,7 +39,7 @@ class ChatProvider extends ChangeNotifier {
 
     try {
       final response = await http.post(
-        Uri.parse('https://apitensorflow-hb6ixpzc6q-rj.a.run.app/ask'),
+        Uri.parse('https://emotiondetector-c5vbq6cjta-rj.a.run.app/ask'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'question': content}),
       );
@@ -69,6 +72,10 @@ class ChatProvider extends ChangeNotifier {
   }
 
   Future<void> sendImage(File imageFile) async {
+    // Determina o MIME type da imagem
+    final mimeType = lookupMimeType(imageFile.path) ?? 'image/jpg'; // Define um MIME type padrão caso não seja encontrado
+
+    // Adiciona a mensagem de imagem antes de enviar
     final message = types.ImageMessage(
       author: _user,
       createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -82,13 +89,10 @@ class ChatProvider extends ChangeNotifier {
 
     addMessage(message);
 
-    // Determina o MIME type da imagem
-    final mimeType = lookupMimeType(imageFile.path) ?? 'image/jpg'; // Define um MIME type padrão caso não seja encontrado
-
     try {
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('https://apitensorflow-hb6ixpzc6q-rj.a.run.app/analyze_emotion'),
+        Uri.parse('https://emotiondetector-c5vbq6cjta-rj.a.run.app/analyze_emotion'),
       );
 
       request.files.add(
