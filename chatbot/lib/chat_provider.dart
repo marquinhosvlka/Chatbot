@@ -39,7 +39,7 @@ class ChatProvider extends ChangeNotifier {
 
     try {
       final response = await http.post(
-        Uri.parse('https://emotiondetector-c5vbq6cjta-rj.a.run.app/ask'),
+        Uri.parse('https://gemini-c5vbq6cjta-rj.a.run.app/ask_gemini'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'question': content}),
       );

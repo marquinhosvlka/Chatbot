@@ -4,10 +4,14 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from flask_cors import CORS
 import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+import tensorflow as tf
+import numpy as np
+from PIL import Image
+import tensorflow_hub as hub
 from werkzeug.utils import secure_filename
 from fer import FER
 import cv2
-import tensorflow
 
 app = Flask(__name__)
 CORS(app)  # Habilita CORS para todas as rotas
@@ -20,26 +24,21 @@ def predict_emotion(image_path):
     try:
         # Carregar a imagem
         img = cv2.imread(image_path)
-        if img is None:
-            return 'Error: Image not found or unable to load image'
 
         # Criar o detector de emoções
         detector = FER()
 
         # Detectar emoções
         result = detector.detect_emotions(img)
-        if not result:
-            return 'unknown'
 
-        # Obter a emoção dominante
-        emotions = result[0]['emotions']
-        if not emotions:
+        if result:
+            dominant_emotion = max(result[0]['emotions'], key=result[0]['emotions'].get)
+            return dominant_emotion
+        else:
             return 'unknown'
-
-        dominant_emotion = max(emotions, key=emotions.get)
-        return dominant_emotion
     except Exception as e:
         return f'Error during prediction: {str(e)}'
+
 
 questions = [
     "O que é câncer?",
@@ -110,8 +109,6 @@ vectors = vectorizer.fit_transform(questions).toarray()
 def ask():
     data = request.get_json()
     question = data.get('question')
-    if not question:
-        return jsonify({'error': 'No question provided'}), 400
     question_vector = vectorizer.transform([question]).toarray()
     similarity = cosine_similarity(question_vector, vectors)
     index = np.argmax(similarity)
