@@ -50,7 +50,7 @@ The Flutter app uses the `flutter_chat_ui` library to create a user-friendly cha
 3. **Start Flask Server**:
     - Run the Flask app:
       ```bash
-      python app.py
+      python App.py
       ```
 
 4. **Deploy to Google Cloud Run**:
