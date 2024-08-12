@@ -1,29 +1,43 @@
-name: chatbot
-description: Uma Aplicação para Respostas Rapidas sobre Cancer
+name: oncoknowledge
+description: Uma Aplicação para Respostas Rápidas sobre Câncer
 
 publish_to: 'none'
 
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.4.3 <4.0.0'
+  sdk: '>=2.12.0 <4.0.0'  # Atualize para suportar null safety
 
 dependencies:
   flutter:
     sdk: flutter
   provider: ^6.0.5
-  http: 1.2.2
+  http: ^1.2.2
   flutter_chat_ui: ^1.6.14
   uuid: ^4.4.2
   image_picker: ^0.8.5+3
   file_picker: ^5.0.1
   mime: ^1.0.0
-  
+  flutter_native_splash: ^2.2.16
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+  
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/icon.png
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: assets/icon.png
+
+flutter_native_splash:
+  image: assets/icon.png
+  android: true
+  ios: true

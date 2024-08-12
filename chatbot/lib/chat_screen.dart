@@ -15,7 +15,7 @@ class ChatScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chatbot'),
+        title: Text('OncoKnowledge'),
       ),
       body: Chat(
         messages: chatProvider.messages,

@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => ChatProvider(),
       child: MaterialApp(
-        title: 'Chatbot',
+        title: 'OncoKnowledge',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
