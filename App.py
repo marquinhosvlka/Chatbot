@@ -7,7 +7,7 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
 # Configure the Gemini API
-GOOGLE_API_KEY = 'AIzaSyDFVLJhJgxuwr4RUF_wU3x7gmy_OaIZhQ4'
+GOOGLE_API_KEY = 'API_KEY'
 genai.configure(api_key=GOOGLE_API_KEY)
 model = genai.GenerativeModel('gemini-1.5-flash')
 
